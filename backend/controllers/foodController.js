@@ -1,0 +1,81 @@
+import foodModel from "../models/foodModel.js";
+import fs from 'fs';
+
+// Add food item
+const addFood = async (req, res) => {
+  let image_filename = `${req.file.filename}`;
+
+  const food = new foodModel({
+    name: req.body.name,
+    description: req.body.description,
+    price: req.body.price,
+    category: req.body.category,
+    image: image_filename
+  });
+
+  try {
+    await food.save();
+    res.json({ success: true, message: "Food Added" });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: "Error" });
+  }
+};
+
+// All food list 
+const listFood = async (req, res) => {
+  try {
+    const foods = await foodModel.find({});
+
+    // Add full image URL
+    const updatedFoods = foods.map(food => ({
+      ...food._doc,
+      image: `http://localhost:4000/images/${food.image}`
+    }));
+
+    res.json({ success: true, data: updatedFoods });
+  } catch (error) {
+    res.json({ success: false, message: "Error" });
+  }
+};
+
+// Remove food item
+const removeFood = async (req, res) => {
+  try {
+    const food = await foodModel.findById(req.body.id);
+    fs.unlink(`uploads/${food.image}`, () => {});
+
+    await foodModel.findByIdAndDelete(req.body.id);
+    res.json({ success: true, message: "Food Removed" });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: "Error" });
+  }
+};
+
+// Update food item
+const updateFood = async (req, res) => {
+  try {
+    const { name, description, price, category } = req.body;
+    const id = req.params.id; 
+
+    let updateData = { name, description, price, category };
+
+    if (req.file) {
+      const food = await foodModel.findById(id);
+      if (food?.image) {
+        fs.unlink(`uploads/${food.image}`, () => {});
+      }
+      updateData.image = req.file.filename;
+    }
+
+    await foodModel.findByIdAndUpdate(id, updateData);
+    res.json({ success: true, message: "Food Updated" });
+  } catch (error) {
+    console.log(error);
+    res.json({ success: false, message: "Error Updating Food" });
+  }
+};
+
+
+export { addFood, listFood, removeFood, updateFood };

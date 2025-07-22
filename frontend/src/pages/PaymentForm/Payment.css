@@ -1,0 +1,86 @@
+
+.payment-page {
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+  gap: 50px;
+  font-family: sans-serif;
+}
+
+.payment-left {
+  flex: 1;
+  max-width: 400px;
+}
+
+.payment-left h2 {
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.payment-left ul {
+  list-style: none;
+  padding: 0;
+}
+
+.payment-left li {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: #555;
+}
+
+.payment-left li.total {
+  font-weight: bold;
+  color: tomato;
+  font-size: 16px;
+}
+
+.payment-right {
+  flex: 1;
+  max-width: 400px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  background: #f9f9f9;
+  padding: 30px;
+  border-radius: 8px;
+  border: 1px solid #ddd;
+}
+
+.payment-right input,
+.payment-right select {
+  padding: 10px;
+  font-size: 14px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.payment-right .flex-inputs {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+  width: 100%;
+}
+
+.payment-right .flex-inputs input {
+  flex: 1;
+  min-width: 100px;
+}
+
+
+.payment-right button {
+  background: tomato;
+  color: white;
+  border: none;
+  padding: 12px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: 0.2s;
+}
+
+.payment-right button:hover {
+  background: #e64522;
+}
+
